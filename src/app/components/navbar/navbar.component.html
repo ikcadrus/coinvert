@@ -1,1 +1,53 @@
-<p>navbar works!</p>
+<nav class="bg-white/50">
+    <div class="mx-auto max-w-full">
+      <div class="relative flex h-20 items-center justify-between border-b-2">
+        <div class="absolute inset-y-0 right-0 flex items-center lg:hidden">
+          <!-- Mobile menu button-->
+          <button type="button" (click)="toggleMobileMenu()" class="relative inline-flex items-center justify-center rounded-md p-5 me-2 text-black hover:bg-gray-300 hover:text-black focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+              <span class="absolute -inset-0.5"></span>
+              <span class="sr-only">Open main menu</span>
+              <!-- Icon when menu is closed. -->
+              @if (!isMobileMenuOpen) {
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+              } @else {
+                <!-- Icon when menu is open. -->
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              }
+          </button>
+      </div>
+        <div class="flex flex-1 items-center justify-center lg:items-stretch">
+          <div class="flex flex-shrink-0 items-center lg:ml-12">
+            <img class="h-8 w-auto" src="assets/img/logo/logo.png" alt="Coinvert">
+            <p class="text-black font-bold ps-2 text-2xl">Coinvert</p>
+          </div>
+          <div class="hidden lg:block ms-6 me-12">
+            <div class="flex space-x-4">
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">Exchange rate</a>
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">How it works</a>
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">All conversions</a>
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">Opinions</a>
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">FAQ</a>
+              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-full px-3 py-2 text-lg font-medium">Contact Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="lg:hidden" id="mobile-menu" [class.block]="isMobileMenuOpen" [class.hidden]="!isMobileMenuOpen">
+      <div class="space-y-1 px-2 pb-3 pt-2">
+        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">Exchange</a>
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">How it works</a>
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">All conversions</a>
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">Opinions</a>
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">Coinvert FAQs</a>
+        <a href="#" class="text-black hover:bg-gray-300 hover:text-black block rounded-md px-3 py-2 text-center font-medium">Contact Us</a>
+      </div>
+    </div>
+</nav>

@@ -11,11 +11,58 @@
             <div class="background-input flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
                 <label class="text-md text-zinc-600 ms-6" style="line-height: 2;">Amount</label>
                 <div class="flex flex-row justify-between">
+                    <button (click)="amountButtonFirst()" type="button" id="dropdown-currency-button-first" class="flex bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold min-w-28 py-1 ms-3 me-3">
+                        <img [src]="selectedOptionFirst.imageUrl" width="24" class="ms-2 mt-1 mb-1">
+                        <span class="text-xl ms-2 my-0.5">{{ selectedOptionFirst.name }}</span>
+                        @if (!isAmountButtonOpenFirst) {
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -3.5 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                            </svg>
+                        } @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2.5 -3.5 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                            </svg>                          
+                        }  
+                    </button>
+                </div>
+                <div [class.flex]="isAmountButtonOpenFirst" [class.hidden]="!isAmountButtonOpenFirst" class="flex flex-row z-10 mt-2 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <ul class="py-1 max-h-[135px] overflow-auto" role="none">
+                        @for (option of optionsFirst; track option.id){
+                        <li href="#" class="flex hover:bg-gray-100 text-sm ms-1 rounded-lg cursor-pointer" (click)="onOptionSelectFirst(option)" role="menuitem" tabindex="-1" id="menu-item-1">
+                            <img [src]="option.imageUrl" width="24" class="ms-1 mt-1 mb-1">
+                            <span class="text-xl font-semibold ms-2 me-8 mt-0.5 mb-0.5">{{ option.name }}</span>
+                        </li>
+                        }
+                    </ul>
                 </div>
             </div>  
             <div class="background-input flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
                 <label class="text-md text-zinc-600 ms-6" style="line-height: 2;">Converted to</label>
                 <div class="flex flex-row justify-between">
+                    <button (click)="amountButtonSecond()" type="button" id="dropdown-currency-button-second" class="flex bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold min-w-28 py-1 ms-3 me-3">
+                        <img [src]="selectedOptionSecond.imageUrl" width="24" class="ms-2 mt-1 mb-1">
+                        <span class="text-xl ms-2 my-0.5">{{ selectedOptionSecond.name }}</span>
+                        @if (!isAmountButtonOpenSecond) {
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2.5 -3.5 24 24" fill="currentColor" class="w-6 h-6">
+                                <path fill-rule="evenodd" d="M12.53 16.28a.75.75 0 0 1-1.06 0l-7.5-7.5a.75.75 0 0 1 1.06-1.06L12 14.69l6.97-6.97a.75.75 0 1 1 1.06 1.06l-7.5 7.5Z" clip-rule="evenodd" />
+                            </svg>
+                        } @else {
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-2.5 -3.5 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 15.75 7.5-7.5 7.5 7.5" />
+                            </svg>                          
+                        }  
+                    </button>
+                </div>
+                <div [class.flex]="isAmountButtonOpenSecond" [class.hidden]="!isAmountButtonOpenSecond" class="flex flex-row absolute mt-2 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <ul class="py-1 max-h-[135px] overflow-auto" role="none">
+                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                        @for (option of optionsSecond; track option.id){
+                        <li href="#" class="flex hover:bg-gray-100 text-sm ms-1 rounded-lg cursor-pointer" (click)="onOptionSelectSecond(option)" role="menuitem" tabindex="-1" id="menu-item-1">
+                            <img [src]="option.imageUrl" width="24" class="ms-1 mt-1 mb-1">
+                            <span class="text-xl font-semibold ms-2 me-8 mt-0.5 mb-0.5">{{ option.name }}</span>
+                        </li>
+                        }
+                    </ul>
                 </div>
             </div>
             <div class="background-input h-20 bg-white rounded-3xl ms-6 me-6 mt-6">

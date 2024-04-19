@@ -61,7 +61,7 @@
                         <span class="secondSymbol absolute text-2xl mt-[4px] sm:mt-[5px] lg:mt-1 -ms-8 sm:-ms-12">{{selectedOptionSecond.symbol}}</span>
                     </div>
                 </div>
-                <div [class.flex]="isAmountButtonOpenSecond" [class.hidden]="!isAmountButtonOpenSecond" class="flex flex-row absolute mt-2 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div [class.flex]="isAmountButtonOpenSecond" [class.hidden]="!isAmountButtonOpenSecond" class="flex flex-row absolute mt-20 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <ul class="py-1 max-h-[135px] overflow-auto" role="none">
                         <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                         @for (option of optionsSecond; track option.id){

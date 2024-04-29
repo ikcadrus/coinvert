@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 interface CurrencyOption {
-  id: number,
+  id: number;
   name: string;
   imageUrl: string;
   symbol: string;
@@ -10,7 +11,7 @@ interface CurrencyOption {
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './converter.component.html',
   styleUrl: './converter.component.scss'
 })
@@ -86,9 +87,35 @@ export class ConverterComponent {
       this.selectedOptionFirst = option;
     }
     this.isAmountButtonOpenFirst = !this.isAmountButtonOpenFirst;
+    if(this.amountFirst !== undefined) {
+      this.onAmountChangeFirst(this.amountFirst);
+    }
   }
+
+  // Function called upon changing the amount in the source currency.
+  onAmountChangeFirst(amount: number) {
+    if (this.exchangeRatesMap && this.selectedOptionSecond) {
+      let rate;
+      let convertedAmount;
+      if (this.selectedOptionFirst.name.toLowerCase() === 'pln') {
+        rate = this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()];
+        convertedAmount = this.roundToTwoDecimals(amount / rate);
+        this.amountSecond = convertedAmount;
+      } else if (this.selectedOptionSecond.name.toLowerCase() === 'pln') {
+        rate = this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()];
+        convertedAmount = this.roundToTwoDecimals(amount * rate);
+        this.amountSecond = convertedAmount;
+      } else {
+        rate = this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()];
+        convertedAmount = this.roundToTwoDecimals(amount * (this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()] / rate));
+        this.amountSecond = convertedAmount;
+      }
+    }
+  }
+
+  // Function called upon selecting the target currency.
   onOptionSelectSecond(option: CurrencyOption) {
-    if (this.selectedOptionFirst.id === option.id) {
+    if(this.selectedOptionFirst.id === option.id) {
       const temp = this.selectedOptionFirst;
       this.selectedOptionFirst = this.selectedOptionSecond;
       this.selectedOptionSecond = temp;
@@ -96,8 +123,52 @@ export class ConverterComponent {
       this.selectedOptionSecond = option;
     }
     this.isAmountButtonOpenSecond = !this.isAmountButtonOpenSecond;
+    if(this.amountFirst !== undefined) {
+      this.onAmountChangeFirst(this.amountFirst);
+    }
+  }
+  
+  // Function called upon changing the amount in the target currency.
+  onAmountChangeSecond(amount: number) {
+    if (this.exchangeRatesMap && this.selectedOptionFirst) {
+      let rate;
+      let convertedAmount;
+      if (this.selectedOptionSecond.name.toLowerCase() === 'pln') {
+        rate = this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()];
+        convertedAmount = this.roundToTwoDecimals(amount * rate);
+        this.amountFirst = convertedAmount;
+      } else {
+        rate = this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()];
+        convertedAmount = this.roundToTwoDecimals(amount * (this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()] / rate));
+        this.amountFirst = convertedAmount;
+      }
+    }
   }
 
+  // Map storing currency exchange rates.
+  exchangeRatesMap: { [currency: string]: number } = {};
+
+  async ngOnInit(): Promise<void> {
+    await this.fetchExchangeRates();
+    if (this.exchangeRates) {
+      this.exchangeRatesMap = {
+        eur: this.exchangeRates['eur'],
+        gbp: this.exchangeRates['gbp'],
+        usd: this.exchangeRates['usd'],
+        aud: this.exchangeRates['aud'],
+        cad: this.exchangeRates['cad'],
+        chf: this.exchangeRates['chf'],
+        czk: this.exchangeRates['czk'],
+        huf: this.exchangeRates['huf'],
+        jpy: this.exchangeRates['jpy'],
+        krw: this.exchangeRates['krw'],
+        try: this.exchangeRates['try']
+      };
+
+      this.amountFirst = 1000;
+      this.amountSecond = this.roundToTwoDecimals(this.amountFirst * (this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()] / this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()]));
+    }
+  }
 
   // Function fetching currency exchange rates from an external source.
   async fetchExchangeRates() {

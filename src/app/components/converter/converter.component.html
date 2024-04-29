@@ -25,7 +25,7 @@
                         }  
                     </button>
                     <div class="relative">
-                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" value="1000">
+                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountFirst" (ngModelChange)="onAmountChangeFirst($event)">
                         <span class="firstSymbol absolute text-2xl mt-[5px] sm:mt-1 lg:mt-[5px] -ms-8 sm:-ms-12">{{selectedOptionFirst.symbol}}</span>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                         }  
                     </button>
                     <div class="relative">
-                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" value="1000">
+                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountSecond" (ngModelChange)="onAmountChangeSecond($event)">
                         <span class="secondSymbol absolute text-2xl mt-[4px] sm:mt-[5px] lg:mt-1 -ms-8 sm:-ms-12">{{selectedOptionSecond.symbol}}</span>
                     </div>
                 </div>

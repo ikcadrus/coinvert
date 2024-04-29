@@ -51,8 +51,34 @@ export class ConverterComponent {
     { id:11, name: 'TRY', imageUrl: 'https://hatscripts.github.io/circle-flags/flags/tr.svg', symbol: '₺' }
   ];
 
+  // Variables tracking the open state of the button for selecting the amount in the source and target currencies.
+  isAmountButtonOpenFirst: boolean = false;
+  isAmountButtonOpenSecond: boolean = false;
+
+  // Functions handling the button for the source currency.
+  amountButtonFirst(){
+    this.isAmountButtonOpenFirst = !this.isAmountButtonOpenFirst;
+  }
+
+  amountButtonSecond(){
+    this.isAmountButtonOpenSecond = !this.isAmountButtonOpenSecond;
+  }
+
+  // Storing data about currency exchange rates.
+  exchangeRates: any;
+
+  //Storing the amount values in source and target currencies.
+  amountFirst: number | undefined;
+  amountSecond: number | undefined;
+
+  // Function rounding a number to two decimal places.
+  roundToTwoDecimals(num: number): number {
+    return parseFloat(num.toFixed(2));
+  }
+
+  // Function called upon selecting the source currency.
   onOptionSelectFirst(option: CurrencyOption) {
-    if (this.selectedOptionSecond.id === option.id) {
+    if(this.selectedOptionSecond.id === option.id) {
       const temp = this.selectedOptionSecond;
       this.selectedOptionSecond = this.selectedOptionFirst;
       this.selectedOptionFirst = temp;
@@ -61,7 +87,6 @@ export class ConverterComponent {
     }
     this.isAmountButtonOpenFirst = !this.isAmountButtonOpenFirst;
   }
-
   onOptionSelectSecond(option: CurrencyOption) {
     if (this.selectedOptionFirst.id === option.id) {
       const temp = this.selectedOptionFirst;
@@ -72,17 +97,52 @@ export class ConverterComponent {
     }
     this.isAmountButtonOpenSecond = !this.isAmountButtonOpenSecond;
   }
-  
-  isAmountButtonOpenFirst: boolean = false;
 
-  amountButtonFirst(){
-    this.isAmountButtonOpenFirst = !this.isAmountButtonOpenFirst;
+
+  // Function fetching currency exchange rates from an external source.
+  async fetchExchangeRates() {
+    try {
+      this.exchangeRates = await this.getExchangeRates();
+      console.log('Exchange rates:', this.exchangeRates);
+    } catch (error) {
+      console.error('Error fetching exchange rates:', error);
+    }
   }
 
-  isAmountButtonOpenSecond: boolean = false;
+  // Function fetching currency exchange rates from a specific API.
+  async getExchangeRates(): Promise<{ eur: number, gbp: number, usd: number, aud: number, cad: number, chf: number, czk: number, huf: number, jpy: number, krw: number, try: number } | null | undefined>{
+    try{
+      const response = await fetch('https://api.nbp.pl/api/exchangerates/tables/a/');
+      const data = await response.json();
+      const rates = data[0].rates;
+      let eurRate = null, gbpRate = null, usdRate = null, audRate = null, cadRate = null, chfRate = null, czkRate = null, hufRate = null, jpyRate = null, krwRate = null, tryRate = null;
+      for(const rate of rates){
+        if(rate.code === 'EUR'){eurRate = rate.mid;}
+        else if(rate.code === 'GBP'){gbpRate = rate.mid;}
+        else if(rate.code === 'USD'){usdRate = rate.mid;}
+        else if(rate.code === 'AUD'){audRate = rate.mid;}
+        else if(rate.code === 'CAD'){cadRate = rate.mid;}
+        else if(rate.code === 'CHF'){chfRate = rate.mid;}
+        else if(rate.code === 'CZK'){czkRate = rate.mid;}
+        else if(rate.code === 'HUF'){hufRate = rate.mid;}
+        else if(rate.code === 'JPY'){jpyRate = rate.mid;}
+        else if(rate.code === 'KRW'){krwRate = rate.mid;}
+        else if(rate.code === 'TRY'){tryRate = rate.mid;}
+      }
 
-  amountButtonSecond(){
-    this.isAmountButtonOpenSecond = !this.isAmountButtonOpenSecond;
+      // Check if currencies rates were found 
+      if(![eurRate, gbpRate, usdRate, audRate, cadRate, chfRate, czkRate, hufRate, jpyRate, krwRate, tryRate].every(rate => rate !== null)){
+        throw new Error('Unable to find euro or dollar exchange rate');
+      }
+
+      // Check if data was retrieved successfully
+      if(!Array.isArray(data) || data.length === 0 || !data[0].rates){
+        throw new Error('Unable to fetch currency exchange rates data');
+      }
+
+      return { eur: eurRate, gbp: gbpRate, usd: usdRate, aud: audRate, cad: cadRate, chf: chfRate, czk: czkRate, huf: hufRate, jpy: jpyRate, krw: krwRate, try: tryRate};
+    } catch (error) {
+      return { eur: 0, gbp: 0, usd: 0, aud: 0, cad: 0, chf: 0, czk: 0, huf: 0, jpy: 0, krw: 0, try: 0 };
+    }
   }
-
 }

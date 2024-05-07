@@ -1,4 +1,4 @@
-<div class="lg:flex lg:mt-56">
+<div class="lg:flex lg:mt-80 mt-24">
     <div class="lg:container text-center lg:text-left lg:w-[525px] lg:ms-auto">
         <p class="text-2xl font-sans font-semibold text-gray-500 mt-6 ms-6 lg:ms-0 me-6 lg:w-6/12">Live exchange rates</p>
         <p class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mt-6 ms-6 lg:ms-0 me-6 lg:w-6/12">CURRENCY COINVERTER</p>
@@ -7,8 +7,8 @@
         <button type="button" class="border-2 bg-zinc-900 hover:bg-zinc-800 text-white rounded-full font-sans font-semibold w-40 px-6 py-2 mt-3 ms-6 lg:ms-0 me-6">How it works</button>
     </div>
     <div class="lg:container lg:text-left lg:w-[450px] lg:me-auto">
-        <div class="background flex flex-col mx-auto w-11/12 h-96 md:w-[450px] bg-[#f4f5f6] rounded-3xl mt-6">
-            <div class="background-input flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
+        <div class="background flex flex-col mx-auto h-96 w-[450px] bg-[#f4f5f6]/90 backdrop-blur-xl rounded-3xl mt-6">
+            <div class="backgroundInput flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
                 <label class="text-md text-zinc-600 ms-6" style="line-height: 2;">Amount</label>
                 <div class="flex flex-row justify-between">
                     <button (click)="amountButtonFirst()" type="button" id="dropdown-currency-button-first" class="flex bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold min-w-28 py-1 ms-3 me-3">
@@ -25,7 +25,7 @@
                         }  
                     </button>
                     <div class="relative">
-                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountFirst" (ngModelChange)="onAmountChangeFirst($event)">
+                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountFirst" (ngModelChange)="onAmountChangeFirst($event)">
                         <span class="firstSymbol absolute text-2xl mt-[5px] sm:mt-1 lg:mt-[5px] -ms-8 sm:-ms-12">{{selectedOptionFirst.symbol}}</span>
                     </div>
                 </div>
@@ -34,13 +34,13 @@
                         @for (option of optionsFirst; track option.id){
                         <li href="#" class="flex hover:bg-gray-100 text-sm ms-1 rounded-lg cursor-pointer" (click)="onOptionSelectFirst(option)" role="menuitem" tabindex="-1" id="menu-item-1">
                             <img [src]="option.imageUrl" width="24" class="ms-1 mt-1 mb-1">
-                            <span class="text-xl font-semibold ms-2 me-8 mt-0.5 mb-0.5">{{ option.name }}</span>
+                            <span class="text-xl font-semibold ms-2 me-7 mt-0.5 mb-0.5">{{ option.name }}</span>
                         </li>
                         }
                     </ul>
                 </div>
             </div>  
-            <div class="background-input flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
+            <div class="backgroundInput flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
                 <label class="text-md text-zinc-600 ms-6" style="line-height: 2;">Converted to</label>
                 <div class="flex flex-row justify-between">
                     <button (click)="amountButtonSecond()" type="button" id="dropdown-currency-button-second" class="flex bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold min-w-28 py-1 ms-3 me-3">
@@ -57,23 +57,39 @@
                         }  
                     </button>
                     <div class="relative">
-                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-96 md:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountSecond" (ngModelChange)="onAmountChangeSecond($event)">
+                        <input type="number" class="bg-white transition duration-300 hover:bg-gray-100 text-black rounded-xl font-sans font-semibold text-2xl text-right outline-none w-11/12 sm:w-64 h-10 sm:me-3 pr-10" data-type="currency" [(ngModel)]="amountSecond" (ngModelChange)="onAmountChangeSecond($event)">
                         <span class="secondSymbol absolute text-2xl mt-[4px] sm:mt-[5px] lg:mt-1 -ms-8 sm:-ms-12">{{selectedOptionSecond.symbol}}</span>
                     </div>
                 </div>
-                <div [class.flex]="isAmountButtonOpenSecond" [class.hidden]="!isAmountButtonOpenSecond" class="flex flex-row absolute mt-20 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                <div [class.flex]="isAmountButtonOpenSecond" [class.hidden]="!isAmountButtonOpenSecond" class="flex flex-row z-50 w-[136px] ms-3 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <ul class="py-1 max-h-[135px] overflow-auto" role="none">
-                        <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                         @for (option of optionsSecond; track option.id){
                         <li href="#" class="flex hover:bg-gray-100 text-sm ms-1 rounded-lg cursor-pointer" (click)="onOptionSelectSecond(option)" role="menuitem" tabindex="-1" id="menu-item-1">
                             <img [src]="option.imageUrl" width="24" class="ms-1 mt-1 mb-1">
-                            <span class="text-xl font-semibold ms-2 me-8 mt-0.5 mb-0.5">{{ option.name }}</span>
+                            <span class="text-xl font-semibold ms-2 me-7 mt-0.5 mb-0.5">{{ option.name }}</span>
                         </li>
                         }
                     </ul>
                 </div>
             </div>
-            <div class="background-input h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
+            <div class="backgroundInput flex flex-col h-20 bg-white rounded-3xl ms-6 me-6 mt-6">
+                <label class="text-md text-zinc-600 ms-6" style="line-height: 2;">Current rate</label>
+                <div class="flex flex-row justify-between">
+                    <div class="flex mt-0.5">
+                        <div class="firstCurrencyImg">
+                            <img [src]="selectedOptionFirst.imageUrl" class="ms-6 w-9">
+                        </div>
+                        <div class="secondCurrencyImg">
+                            <img [src]="selectedOptionSecond.imageUrl" class="-ms-3 bg-white outline outline-3 outline-white rounded-full w-12">
+                        </div>
+                    </div>
+                    <div class="oneExchangeRate mt-2">
+                        <span class="text-2xl font-sans font-semibold me-8">1{{ selectedOptionFirst.symbol }} = {{ getExchangeRateForSecondCurrency() }}{{ selectedOptionSecond.symbol }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex text-center font-sans text-neutral-500 text-sm ms-6 me-6 mt-3 mb-3">
+                Exchange rates are dynamic. Always remember to carefully check the exchange rate before performing any actions.
             </div>
         </div>
     </div>

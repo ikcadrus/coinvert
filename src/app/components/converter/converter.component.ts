@@ -77,6 +77,11 @@ export class ConverterComponent {
     return parseFloat(num.toFixed(2));
   }
 
+  // Function rounding a number to four decimal places.
+  roundToFourDecimals(num: number): number {
+    return parseFloat(num.toFixed(4));
+  }
+
   // Function called upon selecting the source currency.
   onOptionSelectFirst(option: CurrencyOption) {
     if(this.selectedOptionSecond.id === option.id) {
@@ -214,6 +219,19 @@ export class ConverterComponent {
       return { eur: eurRate, gbp: gbpRate, usd: usdRate, aud: audRate, cad: cadRate, chf: chfRate, czk: czkRate, huf: hufRate, jpy: jpyRate, krw: krwRate, try: tryRate};
     } catch (error) {
       return { eur: 0, gbp: 0, usd: 0, aud: 0, cad: 0, chf: 0, czk: 0, huf: 0, jpy: 0, krw: 0, try: 0 };
+    }
+  }
+
+  // Function that takes exchange rates from the first currency with a value of 1
+  getExchangeRateForSecondCurrency(): number {
+    if (this.selectedOptionFirst.name.toLowerCase() === 'pln') {
+      return this.roundToFourDecimals(1 / this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()]);
+    } else if(this.selectedOptionSecond.name.toLowerCase() === 'pln'){
+      return this.roundToFourDecimals(this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()]);
+    } else {
+      const firstCurrencyRate = this.exchangeRatesMap[this.selectedOptionFirst.name.toLowerCase()];
+      const secondCurrencyRate = this.exchangeRatesMap[this.selectedOptionSecond.name.toLowerCase()];
+      return this.roundToFourDecimals(firstCurrencyRate / secondCurrencyRate);
     }
   }
 }
